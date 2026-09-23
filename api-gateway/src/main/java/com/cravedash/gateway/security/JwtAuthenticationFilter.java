@@ -24,6 +24,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        // Permit all GET requests without JWT authentication
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         String path = request.getRequestURI();
         return path.startsWith("/auth/") || path.equals("/auth") || path.startsWith("/actuator/") || path.equals("/actuator");
     }
